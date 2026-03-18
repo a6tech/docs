@@ -1,33 +1,150 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Vision API reference for computer vision attendance tracking and demographic analysis'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Overview
 
-## Welcome
+Vision is a computer vision product for churches that automatically counts and identifies demographic information of church attendees. It uses camera feeds to detect people, track them across video frames, analyze demographics (age range, gender), and match faces across events to understand attendance patterns.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+### Key Concepts
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+- **Event**: A church service or gathering being tracked. Events have a campus, date range, timezone, and optionally belong to a series.
+- **Event Series**: A recurring event template (e.g., "Sunday Morning Service") with rules that auto-generate events.
+- **Event Service Time**: Named service times within a series (e.g., "8am Service", "10am Service").
+- **Capture Source**: A camera/RTSP stream configured with detection regions for counting people and faces.
+- **Capture Device**: Physical hardware (IoT device) that runs capture sources and processes video.
+- **Capture Session**: A single video capture run from a source during an event. Sessions go through processing workflows.
+- **Person Track**: A continuous detection of one person moving through a video. Tracks contain face images and demographic estimates.
+- **Face**: An individual face detection with bounding box, quality score, and image data. Faces are indexed for cross-event matching.
+- **Person**: A unique individual identified across multiple events via face matching. Can be linked to a church individual/member record.
+- **Face Match**: A pair of faces from different events that may belong to the same person, with a similarity score and human review status.
+- **Gender Review**: A human review item for verifying the system's gender classification of a detected person.
+- **Generated Video**: An annotated video export showing detection/tracking results overlaid on the original footage.
+
+### Typical Workflow
+
+1. **Setup**: Create an event series with service times and scheduling rules. Configure capture sources (cameras) on devices at each campus.
+2. **Capture**: Create an event and start capture sessions. The system records video from configured cameras.
+3. **Processing**: After capture completes, the system automatically detects people, tracks them, analyzes faces, indexes faces for matching, and catalogs attendance.
+4. **Review**: Review face matches to confirm/reject cross-event person identifications. Review gender classifications. Link detected people to church member records.
+5. **Analytics**: Use stats endpoints to query attendance trends, demographic breakdowns, retention metrics, and individual attendance records.
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints require Bearer token authentication:
+
+```
+Authorization: Bearer <your-token>
+```
+
+### Authorization Levels
+
+- **Staff User**: Most endpoints require a staff user with specific Vision permissions.
+- **Admin User**: Credits endpoints (billing) require admin-level access.
+
+### Permissions
+
+Each endpoint documents its required permission. The full list:
+
+| Permission | Description |
+|---|---|
+| `Vision:ViewEvent` | View events, capture sessions, session stats, and person tracks |
+| `Vision:CreateUpdateEvent` | Create, update, and delete events |
+| `Vision:SetupSource` | Create, update, delete capture sources and take snapshots |
+| `Vision:StartStopCapture` | Start and stop capture sessions |
+| `Vision:SetupEventSeries` | Manage event series, series rules, and service times |
+| `Vision:ViewPeopleCatalog` | View people catalog and face data |
+| `Vision:LinkUnlinkIndividual` | Link/unlink people to church individual records |
+| `Vision:MergePeople` | Merge duplicate people records |
+| `Vision:ViewFaceMatch` | View face match results |
+| `Vision:MarkFaceMatch` | Mark face matches as good/bad/not sure |
+| `Vision:ViewGenderReview` | View gender review items |
+| `Vision:MarkGenderReview` | Mark gender review classifications |
+| `Vision:AnnotateEvent` | Create and delete event annotations |
+| `Vision:CreateUpdateEventAnnotationType` | Manage annotation types and values |
+| `Vision:ViewGeneratedVideo` | View generated videos |
+| `Vision:GenerateVideo` | Create generated videos |
+| `Vision:ViewDashboard` | View stats and analytics dashboards |
+| `Vision:ViewDive` | View individual-level attendance deep dive data |
+
+## Search and Filtering
+
+Many list/search endpoints use a generic search system with consistent query parameter patterns.
+
+### Pagination
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `_limit` | integer | 50 | Maximum results to return (max 100) |
+| `_offset` | integer | 0 | Number of records to skip |
+
+All search responses include pagination metadata:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "limit": 50,
+  "offset": 0,
+  "page": 0,
+  "totalRecords": 142,
+  "totalPages": 3,
+  "hasMore": true
+}
 ```
+
+### Ordering
+
+Use `_orderBy` to sort results. The value format is `field,DIRECTION` where direction is `ASC` or `DESC`. You can specify multiple sort fields by repeating the parameter:
+
+```
+?_orderBy=startDate,DESC&_orderBy=name,ASC
+```
+
+### Relation Expansion
+
+Use `_expand` to include related entities in the response. Repeat the parameter for multiple relations:
+
+```
+?_expand=event&_expand=source
+```
+
+Nested expansion is supported for some endpoints (e.g., `_expand=rules&_expand=rules.campus`).
+
+### Filtering
+
+Any entity field can be used as a filter. Append an operator suffix to the field name:
+
+| Operator | Syntax | Description |
+|---|---|---|
+| Equals | `field=value` or `field.eq=value` | Exact match |
+| Not equals | `field.ne=value` | Excludes matching records |
+| Less than | `field.lt=value` | Strictly less than |
+| Less or equal | `field.le=value` | Less than or equal |
+| Greater than | `field.gt=value` | Strictly greater than |
+| Greater or equal | `field.ge=value` | Greater than or equal |
+| Between | `field.bt=start,end` | Value between start and end (inclusive) |
+| In | `field.in=val1&field.in=val2` | Value matches any in the list |
+| Is null | `field.nl=true` | Field is null |
+| Is not null | `field.nl=false` | Field is not null |
+| Like | `field.like=%pattern%` | SQL LIKE pattern matching |
+
+### Include Deleted Records
+
+Use `_withDeleted=true` to include soft-deleted records in results.
+
+## Error Responses
+
+Errors follow a consistent format:
+
+```json
+{
+  "error": 400,
+  "message": "Description of what went wrong"
+}
+```
+
+Common status codes:
+- `400` - Validation error or bad request
+- `401` - Authentication required
+- `403` - Insufficient permissions
+- `404` - Resource not found

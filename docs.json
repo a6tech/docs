@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Vision API",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -11,112 +11,206 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Events",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/events/search",
+              "api-reference/events/create",
+              "api-reference/events/get",
+              "api-reference/events/update",
+              "api-reference/events/delete",
+              "api-reference/events/get-stats"
+            ]
+          },
+          {
+            "group": "Event Series",
+            "pages": [
+              "api-reference/event-series/search",
+              "api-reference/event-series/create",
+              "api-reference/event-series/get",
+              "api-reference/event-series/update"
+            ]
+          },
+          {
+            "group": "Event Series Rules",
+            "pages": [
+              "api-reference/event-series-rules/search",
+              "api-reference/event-series-rules/create",
+              "api-reference/event-series-rules/get",
+              "api-reference/event-series-rules/update"
+            ]
+          },
+          {
+            "group": "Event Service Times",
+            "pages": [
+              "api-reference/event-service-times/search",
+              "api-reference/event-service-times/create",
+              "api-reference/event-service-times/get",
+              "api-reference/event-service-times/update",
+              "api-reference/event-service-times/delete"
+            ]
+          },
+          {
+            "group": "Capture Sources",
+            "pages": [
+              "api-reference/capture-sources/search",
+              "api-reference/capture-sources/create",
+              "api-reference/capture-sources/get",
+              "api-reference/capture-sources/update",
+              "api-reference/capture-sources/take-snapshot",
+              "api-reference/capture-sources/delete"
+            ]
+          },
+          {
+            "group": "Capture Devices",
+            "pages": [
+              "api-reference/capture-devices/list",
+              "api-reference/capture-devices/get"
+            ]
+          },
+          {
+            "group": "Capture Sessions",
+            "pages": [
+              "api-reference/capture-sessions/search",
+              "api-reference/capture-sessions/get-unfinalized",
+              "api-reference/capture-sessions/create-and-start",
+              "api-reference/capture-sessions/stop",
+              "api-reference/capture-sessions/get",
+              "api-reference/capture-sessions/get-stats",
+              "api-reference/capture-sessions/search-tracks",
+              "api-reference/capture-sessions/get-track",
+              "api-reference/capture-sessions/compare-faces",
+              "api-reference/capture-sessions/split-track",
+              "api-reference/capture-sessions/update-track"
+            ]
+          },
+          {
+            "group": "People",
+            "pages": [
+              "api-reference/people/search",
+              "api-reference/people/get",
+              "api-reference/people/link-individual",
+              "api-reference/people/unlink-individual",
+              "api-reference/people/merge"
+            ]
+          },
+          {
+            "group": "Faces",
+            "pages": [
+              "api-reference/faces/search",
+              "api-reference/faces/search-by-image",
+              "api-reference/faces/get"
+            ]
+          },
+          {
+            "group": "Face Matches",
+            "pages": [
+              "api-reference/face-matches/search",
+              "api-reference/face-matches/get",
+              "api-reference/face-matches/mark-good",
+              "api-reference/face-matches/mark-bad",
+              "api-reference/face-matches/mark-not-sure"
+            ]
+          },
+          {
+            "group": "Gender Reviews",
+            "pages": [
+              "api-reference/gender-reviews/search",
+              "api-reference/gender-reviews/get",
+              "api-reference/gender-reviews/mark"
+            ]
+          },
+          {
+            "group": "Event Annotations",
+            "pages": [
+              "api-reference/event-annotations/search",
+              "api-reference/event-annotations/create",
+              "api-reference/event-annotations/get",
+              "api-reference/event-annotations/delete"
+            ]
+          },
+          {
+            "group": "Annotation Types",
+            "pages": [
+              "api-reference/event-annotation-types/search",
+              "api-reference/event-annotation-types/create",
+              "api-reference/event-annotation-types/get",
+              "api-reference/event-annotation-types/update",
+              "api-reference/event-annotation-types/delete"
+            ]
+          },
+          {
+            "group": "Annotation Values",
+            "pages": [
+              "api-reference/event-annotation-values/search",
+              "api-reference/event-annotation-values/create",
+              "api-reference/event-annotation-values/get",
+              "api-reference/event-annotation-values/update",
+              "api-reference/event-annotation-values/delete"
+            ]
+          },
+          {
+            "group": "Generated Videos",
+            "pages": [
+              "api-reference/generated-videos/search",
+              "api-reference/generated-videos/get",
+              "api-reference/generated-videos/create"
+            ]
+          },
+          {
+            "group": "Stats",
+            "pages": [
+              "api-reference/stats/age-range",
+              "api-reference/stats/gender",
+              "api-reference/stats/time-series",
+              "api-reference/stats/avg-attendance",
+              "api-reference/stats/dive"
+            ]
+          },
+          {
+            "group": "Credits",
+            "pages": [
+              "api-reference/credits/get-forecast",
+              "api-reference/credits/buy",
+              "api-reference/credits/get-auto-recharge",
+              "api-reference/credits/update-auto-recharge"
+            ]
+          },
+          {
+            "group": "Status",
+            "pages": [
+              "api-reference/status/get"
             ]
           }
         ]
       }
     ],
     "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
+      "anchors": []
     }
   },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   }
 }
