@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://api.example.com",
+      "url": "https://api.a6church.com/v2",
       "description": "Production API server"
     }
   ],
